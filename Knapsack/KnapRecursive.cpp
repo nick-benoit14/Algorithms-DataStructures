@@ -1,44 +1,34 @@
-// check out optimal substructure
-//think abour recombining values
 #include <iostream>
 
 class Knap
   {
   public:
 
-    Knap(int* v, int l, int cap)
+    Knap(int* v, int l, int inCap)
       {
         val = v;
         length = l;
         depth = 0;
+        cap = inCap;
       std::cout << "Max: "  << k(cap) << std::endl;
       }
 
-      int k(int cap)
+      int k(int c)
         {
-            for(int i = 0; i < depth; i++) std::cout << " ";
-            std::cout << "knap(" << cap << ")" << std::endl;
-            depth++;
+            for(int i = 0; i < depth; i++) std::cout << "    "; //print tree structure
+            std::cout << "knap(" << c << ")" << std::endl;
+            depth = cap - c;
 
-            int space, max = 0;
-            for(int i = 0; i < length; i++)
+
+            if(c < 0)return 0; //Dont go too deep!
+            int space, max = 0, t;
+            for(int i = 0; i < length; i++) //Try each value - look for maximum structure
               {
-                //add next item in list
-                  //if item in list fits
-                      //if item > max
-                          //max = item
-                space = cap - val[i];
-
-                if(space > 0) //if there is space
+                  space = c - val[i];
+                if(space  >= 0) //if there is space
                   {
-                    std::cout << "space : " << space << std::endl;
-
-                    if(max + val[i] > max)
-                      {
-                      max = max + val[i];
-                      std::cout << "max: " << max << std::endl;
-                      }
-                  return max +  k(space);
+                    t = k(space) + val[i];
+                    if(t > max) max = t; //try to add item. If greater than max then it is new max
                   }
              }
             return max;
@@ -47,6 +37,7 @@ class Knap
       int * val;
       int length;
       int depth;
+      int cap;
 
   };
 
@@ -56,14 +47,18 @@ class Knap
 int main()
   {
 
-    //int v[] = {1,2,3,4,5,6,7,8};
     int * v;
     v = new int[3];
-    for(int i = 0; i < 3; i++)v[i] = i+1;
-
+    for(int i = 0; i < 3; i++)v[i] = i+2;
     int l = 3;
 
-    Knap k(v, l, 4);
+    Knap k(v, l, 10);
+
+    int *r = new int[2];
+    r[0] = 3;
+    r[1] = 6;
+
+    Knap q(r, 2, 100); //Such massive recomputation im not even sure this will ever finish
 
   }
 

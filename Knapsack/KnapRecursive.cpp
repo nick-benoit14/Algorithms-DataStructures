@@ -61,7 +61,3 @@ int main()
     Knap q(r, 2, 100); //Such massive recomputation im not even sure this will ever finish
 
   }
-
-  //arrVal[]
-  //cap
-  //space

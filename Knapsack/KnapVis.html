@@ -1,0 +1,166 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+  <script src="KnapDynamic.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+  <style>
+
+      @font-face { font-family: OpenSans; src: url('inc/OpenSans/OpenSans-Light.ttf'); }
+      html, body{width:100%; height:100%; margin:0px; padding:0px;}
+
+      /*Global Styles*/
+
+      /*Header Styles*/
+      .header{background-color:#1C1C1F; height:125px; position:relative;}
+      .title{color:white;font-family:OpenSans, sans-serif;
+        font-size:50px;text-align:center; width:300px;min-width:300px; height:65px;
+        position:relative; top:32px; letter-spacing: 15px;}
+
+        /*View Styles*/
+        .view
+          {
+            background-color:#F7F7F7; /*min-height:100%;*/ height:82%;
+             /*set viewport hieght dynamically*/
+          }
+
+
+        /*Sidebar Styles*/
+        .sidebar{background-color:#1C1C1F;
+              background: rgba(28, 28, 31, 0.1);}
+        .sidebar.full
+          {
+            width:250px;
+            height:100%;
+          }
+
+        .sidebar.min /*turn into footer when no space */
+          {
+            position:fixed;
+            bottom:0px;
+            height:50px;
+            width:100%;
+          }
+          .sidebar.button
+          {
+            display:inline-block; height:100%; width:auto; color:black;
+            background: rgba(28, 28, 31, 0);
+            font-size:30px;
+            margin-left:20px; margin-right:20px;
+            padding:5px;
+            font-family: OpenSans, sans-serif;
+
+          }
+
+        /*Tool Styles*/
+      .centerInline{margin-left:auto; margin-right:auto;}
+
+  </style>
+</head>
+<script> /*Resizing Item Script*/
+$(document).ready(function()
+  {
+
+      /*View sizing*/
+
+      var viewHeight = $('body').height() - $('.header').height() - 3;
+
+      //set view height
+      $('#view').css('height', viewHeight + 'px');
+      //reset view height if resized
+      $(window).resize(function()
+        {
+          viewHeight = $('body').height() - $('.header').height() - 3;
+          $('#view').css('height', viewHeight + 'px');
+        });
+  });
+</script>
+
+
+
+
+<script> /* D3 Script */
+    $(document).ready(function(){
+          var svg = d3.select('#view').append("svg") //Init D3
+              .attr('width', '100%')
+                  .attr('height', '100%');
+
+          var width = $("svg").width();
+          var height = $("svg").width();
+
+
+          //draw initial box of size capacity
+
+
+          var update = function(data) //take array from knapDynamic and add all boxes
+            {
+
+              var circle = svg.selectAll("circle").data(data); //init circles
+
+
+                  circle.exit().remove(); //remove circles when no corresponding data point
+
+                  circle.enter().append("circle") //add circle when there is corresponding data point
+                      .attr("cy", function(d){return d.Y;})
+                      .attr("r", function(d){return 5;})
+                      .attr("cx", function(d){return d.X;})
+                      .attr("fill", function(d, i){return '#59B33C';});
+
+                 circle.transition() //transition circles
+                    .attr("cy", function(d){return d.Y;})
+                    .attr("cx", function(d){return d.X;});
+
+            }
+
+        //controller.addData([1,2,3,4,5,6,7,8,9,10,11,12,13]);
+        //update(controller.updateDataset());
+        //update(controller.Draw($("svg").height(), $("svg").width()));
+
+        var testData = [1,2,3,4,5,6,7,8,9,10,11,12,13];
+        //var data = knap(arr, capacity);
+
+        var i = 0;
+     setInterval(function() //update viewport size and things
+        {
+          ++i;
+            //controller.addData([Math.sin(i)]);
+
+          //  update(controller.updateDataset());
+          //  update(controller.Draw($("svg").height(), $("svg").width()));
+        }
+        , 100);
+
+});
+</script>
+
+
+
+
+
+<body>
+        <div class="header">
+        <!-- geometric series square svg <img> -->
+            <div class="title centerInline centerVert-Item">OXEN</div>
+        </div>
+
+
+        <div id="view" class="view">
+
+        </div>
+
+
+        <div class="sidebar min">
+            <div class = "sidebar button">Connect</div>
+            <div class = "sidebar button">Configure</div>
+            <div class = "sidebar button">Stats</div>
+        </div>
+
+
+
+
+</body>
+</html>

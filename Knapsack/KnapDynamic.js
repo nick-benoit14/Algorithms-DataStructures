@@ -1,9 +1,13 @@
 
-var knap = function(arr, capacity)
+function knap(arr, capacity)
     {
 
+      var known = [];
+      for(var i = 0; i < capacity; i++) known.push(0);
     var k = function(arr, capacity)  ///rewrite dynamic solution mutha fucka!
       {
+              if(known[capacity]) return known[capacity]; //dont recompute
+
               var max = new item(),  space;
               if(capacity < 0)
                 {
@@ -25,6 +29,7 @@ var knap = function(arr, capacity)
                       if (t1.max >= max.max){max = t1;}
                     }
                   }
+              known[capacity] = max;
               return max;
       }
       return  k(arr, capacity);
@@ -41,6 +46,6 @@ var knap = function(arr, capacity)
 
 
 
-var arr = [1,2,3,4];
-//var c = new Knap();
-console.log(knap(arr, 12));
+var arr = [3,4];
+var c = new knap(arr, 20);
+console.log(c);
